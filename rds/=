@@ -37,9 +37,9 @@ Note that the below steps walk you through setting up a very basic RDS and Supab
 9. Copy the `docker/.env.example` to `docker/.env`
 10. Edit the `POSTGRES_PASSWORD` variable to match the password of the RDS superuser. Set `JWT_SECRET`, `ANON_KEY`, and `SERVICE_ROLE_KEY`` to the values generated earlier. Set the `POSTGRES_HOST` to the RDS endpoint corresponding to the RDS postgres server.
 11. Running `docker-compose up` should now connect you to RDS and you are off to the races! Check dashboard connection with your browser (`localhost:3000`) and connection to the API endpoint (`localhost:8000/rest/v1`)
-12. (_Note: if using realtime_) You may want to shutdown the stack (CTRL + C) then edit the Supabase Realtime run command in the `docker-compose.yml` from `bash -c "./prod/rel/realtime/bin/realtime eval Realtime.Release.migrate && ./prod/rel/realtime/bin/realtime start"` to just `bash -c "./prod/rel/realtime/bin/realtime start"`. The first command runs some PG migrations relating to Supabase realtime that only need to be run once on server startup and for some reason cause the container to fail to launch on subsequent runs. This issue needs to be looked into more thoroughly.
+12. You may want to shutdown the stack (CTRL + C) then edit the Supabase Realtime run command in the `docker-compose.yml` from `bash -c "./prod/rel/realtime/bin/realtime eval Realtime.Release.migrate && ./prod/rel/realtime/bin/realtime start"` to just `bash -c ".==/prod/rel/realtime/bin/realtime start"`
 
-## Caveats Discovered with RDS
+## Caveats with RDS
 
 Generally, the issues with using the scripts out of the box with RDS are as follows:
 
@@ -52,6 +52,6 @@ Generally, the issues with using the scripts out of the box with RDS are as foll
 
 ## Developing & Updating from Upstream Repo
 
-Generally, merging from the upstream [supabase/postgres](https://github.com/supabase/postgres) repo will work without difficulty, and rerunning the `povision.sh` script again with the updated repo may work first time. Should something break, changes can be applied to this forked repo.
+Generally, merging from the upstream `supabase/postgres` repo will work without difficulty, and rerunning the `povision.sh` script again with the updated repo may work first time. Should something break, changes can be applied to this forked repo.
 
 For developer convenience, the script `xx-clear-database.sql` is included: this will get rid of everything the Supabase migration scripts created and make it such that you can rerun the migrations without encountering errors, useful when debugging changes to the migration scripts. **Running this script will delete everything in the database, please only run this on a test RDS instance and not a production database.**
