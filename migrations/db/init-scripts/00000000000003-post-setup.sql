@@ -105,7 +105,8 @@ END
 $$;
 
 -- Supabase dashboard user
-CREATE ROLE dashboard_user NOSUPERUSER CREATEDB CREATEROLE REPLICATION;
+CREATE ROLE dashboard_user NOSUPERUSER CREATEDB CREATEROLE; -- RDS: Can't use REPLICATION here
+GRANT rds_replication TO dashboard_user; -- RDS: GRANT to rds_replication
 GRANT ALL ON DATABASE postgres TO dashboard_user;
 GRANT ALL ON SCHEMA auth TO dashboard_user;
 GRANT ALL ON SCHEMA extensions TO dashboard_user;

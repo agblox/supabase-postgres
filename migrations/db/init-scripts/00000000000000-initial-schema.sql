@@ -6,13 +6,10 @@ create publication supabase_realtime;
 
 -- Supabase super admin
 create user supabase_admin;
-alter user  supabase_admin with superuser createdb createrole replication bypassrls;
-
--- Extension namespacing
-create schema if not exists extensions;
-create extension if not exists "uuid-ossp"      with schema extensions;
-create extension if not exists pgcrypto         with schema extensions;
-create extension if not exists pgjwt            with schema extensions;
+grant supabase_admin to postgres; -- RDS: postgres must have supabase_admin role for future commands
+grant rds_superuser to supabase_admin; -- RDS: rds_superuser rather than superuser
+grant rds_replication to supabase_admin; -- RDS: rds_replication rather than replication
+alter user  supabase_admin with createdb createrole bypassrls; -- RDS: had to remove replication, superuser (see above)
 
 -- Set up auth roles for the developer
 create role anon                nologin noinherit;

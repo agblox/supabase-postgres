@@ -119,5 +119,7 @@ ALTER table "auth".refresh_tokens OWNER TO supabase_auth_admin;
 ALTER table "auth".audit_log_entries OWNER TO supabase_auth_admin;
 ALTER table "auth".instances OWNER TO supabase_auth_admin;
 ALTER table "auth".schema_migrations OWNER TO supabase_auth_admin;
+-- RDS: Grant supabase_auth_admin to postgres
+GRANT supabase_auth_admin TO postgres;
 
 -- migrate:down
